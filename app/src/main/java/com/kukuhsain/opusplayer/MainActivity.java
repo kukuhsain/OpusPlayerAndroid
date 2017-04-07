@@ -8,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private final int PICK_OPUS_FILE_REQUEST = 1000;
 
@@ -25,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+    }
 
+    @OnClick(R.id.btn_pick)
+    public void checkForPermission() {
         EasyPermissions.requestPermissions(this,
                 "Opus Player need a permission to be able to get opus file from your storage",
                 PICK_OPUS_FILE_REQUEST,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
-    @OnClick(R.id.btn_pick)
     public void pickOpusFile() {
         Intent intent = new Intent();
         intent.setType("*/*");
@@ -54,5 +59,15 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        pickOpusFile();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(this, "You are not permitted!", Toast.LENGTH_SHORT).show();
     }
 }
