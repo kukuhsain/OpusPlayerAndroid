@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,18 +17,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
+import top.oply.opuslib.OpusPlayer;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    private final int PICK_OPUS_FILE_REQUEST = 1000;
-
     @BindView(R.id.tv_file_name) TextView tvFileName;
+    @BindView(R.id.iv_play) ImageView ivPlay;
+    @BindView(R.id.iv_pause) ImageView ivPause;
+
+    private final int PICK_OPUS_FILE_REQUEST = 1000;
+    private String fileName;
+    private OpusPlayer opusPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        opusPlayer = OpusPlayer.getInstance();
     }
 
     @OnClick(R.id.btn_pick)
@@ -69,5 +76,23 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Toast.makeText(this, "You are not permitted!", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.iv_play)
+    public void playOpusFile() {
+        if (fileName == null) {
+            Toast.makeText(this, "No opus file picked!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ivPlay.setVisibility(View.GONE);
+        ivPause.setVisibility(View.VISIBLE);
+        opusPlayer.play(fileName);
+    }
+
+    @OnClick(R.id.iv_pause)
+    public void pauseOpusFile() {
+        ivPlay.setVisibility(View.VISIBLE);
+        ivPause.setVisibility(View.GONE);
+        opusPlayer.stop();
     }
 }
