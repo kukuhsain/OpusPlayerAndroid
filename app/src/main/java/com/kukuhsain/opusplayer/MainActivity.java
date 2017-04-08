@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kukuhsain.opusplayer.util.FileUtil;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_OPUS_FILE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri fileUri = data.getData();
-            tvFileName.setText(fileUri.getPath());
+            String filePath = FileUtil.getRealPathFromUri(fileUri);
+            tvFileName.setText(filePath);
             tvFileName.setVisibility(View.VISIBLE);
         }
     }
