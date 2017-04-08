@@ -11,11 +11,27 @@ import android.provider.MediaStore;
 
 import com.kukuhsain.opusplayer.OpusPlayerApp;
 
+import java.io.File;
+
 /**
  * Created by kukuh on 08/04/17.
  */
 
 public class FileUtil {
+
+    public static String getFileNameFromUri(Uri uri) {
+        String filePath = getRealPathFromUri(uri);
+        try {
+            int cut = filePath.lastIndexOf(File.separator);
+            if (cut != -1) {
+                return filePath.substring(cut + 1);
+            }
+            return null;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String getRealPathFromUri(Uri uri) {
         Context context = OpusPlayerApp.getInstance();

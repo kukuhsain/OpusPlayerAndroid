@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @BindView(R.id.iv_pause) ImageView ivPause;
 
     private final int PICK_OPUS_FILE_REQUEST = 1000;
-    private String fileName;
+    private String filePath;
     private OpusPlayer opusPlayer;
 
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_OPUS_FILE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri fileUri = data.getData();
-            String filePath = FileUtil.getRealPathFromUri(fileUri);
+            filePath = FileUtil.getRealPathFromUri(fileUri);
             tvFileName.setText(filePath);
             tvFileName.setVisibility(View.VISIBLE);
         }
@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @OnClick(R.id.iv_play)
     public void playOpusFile() {
-        if (fileName == null) {
+        if (filePath == null) {
             Toast.makeText(this, "No opus file picked!", Toast.LENGTH_SHORT).show();
             return;
         }
         ivPlay.setVisibility(View.GONE);
         ivPause.setVisibility(View.VISIBLE);
-        opusPlayer.play(fileName);
+        opusPlayer.play(filePath);
     }
 
     @OnClick(R.id.iv_pause)
