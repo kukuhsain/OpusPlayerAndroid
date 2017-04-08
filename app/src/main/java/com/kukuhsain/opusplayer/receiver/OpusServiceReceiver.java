@@ -1,4 +1,4 @@
-package com.kukuhsain.opusplayer;
+package com.kukuhsain.opusplayer.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

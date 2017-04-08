@@ -1,4 +1,4 @@
-package com.kukuhsain.opusplayer;
+package com.kukuhsain.opusplayer.presentation.main;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kukuhsain.opusplayer.receiver.OpusServiceReceiver;
+import com.kukuhsain.opusplayer.R;
 import com.kukuhsain.opusplayer.util.FileUtil;
 
 import java.util.List;
@@ -21,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 import top.oply.opuslib.OpusEvent;
-import top.oply.opuslib.OpusPlayer;
 import top.oply.opuslib.OpusService;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
