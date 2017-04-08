@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         Toast.makeText(this, "You are not permitted!", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
     @OnClick(R.id.iv_play)
     public void playOpusFile() {
         if (filePath == null) {
