@@ -94,7 +94,8 @@ public class FileUtil {
             return uri.getPath();
         }
 
-        return null;
+        File file = new File(uri.getPath());
+        return file.getPath();
     }
 
     private static String getDataColumn(Context context, Uri uri, String selection,

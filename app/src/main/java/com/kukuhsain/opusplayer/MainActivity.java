@@ -2,6 +2,7 @@ package com.kukuhsain.opusplayer;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
+import top.oply.opuslib.OpusEvent;
 import top.oply.opuslib.OpusPlayer;
+import top.oply.opuslib.OpusService;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
@@ -29,14 +32,18 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     private final int PICK_OPUS_FILE_REQUEST = 1000;
     private String filePath;
-    private OpusPlayer opusPlayer;
+    private OpusServiceReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        opusPlayer = OpusPlayer.getInstance();
+
+        receiver = new OpusServiceReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(OpusEvent.ACTION_OPUS_UI_RECEIVER);
+        registerReceiver(receiver, filter);
     }
 
     @OnClick(R.id.btn_pick)
@@ -89,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
         ivPlay.setVisibility(View.GONE);
         ivPause.setVisibility(View.VISIBLE);
-        opusPlayer.play(filePath);
+        OpusService.play(this, filePath);
     }
 
     @OnClick(R.id.iv_pause)
     public void pauseOpusFile() {
         ivPlay.setVisibility(View.VISIBLE);
         ivPause.setVisibility(View.GONE);
-        opusPlayer.stop();
+        OpusService.pause(this);
     }
 }
