@@ -18,3 +18,7 @@ and more advantages that the libraries have offered. Here are some of the librar
 - JDK 8
 - Android SDK
 - Android N (API 25)
+
+## Resource
+
+- [opus-codec](http://opus-codec.org/)
