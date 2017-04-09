@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @BindView(R.id.tv_file_name) TextView tvFileName;
     @BindView(R.id.iv_play) ImageView ivPlay;
     @BindView(R.id.iv_pause) ImageView ivPause;
+    @BindView(R.id.sb_progress) SeekBar sbProgress;
 
     private final int PICK_OPUS_FILE_REQUEST = 1000;
     private String filePath;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        receiver = new OpusServiceReceiver();
+        receiver = new OpusServiceReceiver(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(OpusEvent.ACTION_OPUS_UI_RECEIVER);
         registerReceiver(receiver, filter);
@@ -111,5 +113,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         ivPlay.setVisibility(View.VISIBLE);
         ivPause.setVisibility(View.GONE);
         OpusService.pause(this);
+    }
+
+    public void updateProgress(int progress) {
+        sbProgress.setProgress(progress);
     }
 }

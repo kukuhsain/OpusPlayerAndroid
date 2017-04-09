@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.kukuhsain.opusplayer.presentation.main.MainActivity;
+
 import timber.log.Timber;
 import top.oply.opuslib.OpusEvent;
 
@@ -13,6 +15,13 @@ import top.oply.opuslib.OpusEvent;
  */
 
 public class OpusServiceReceiver extends BroadcastReceiver {
+
+    private MainActivity mainActivity;
+
+    public OpusServiceReceiver(MainActivity mainActivity) {
+        super();
+        this.mainActivity = mainActivity;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -25,6 +34,12 @@ public class OpusServiceReceiver extends BroadcastReceiver {
                 break;
             case OpusEvent.PLAY_PROGRESS_UPDATE:
                 Timber.d("PLAY_PROGRESS_UPDATE");
+                long position = bundle.getLong(OpusEvent.EVENT_PLAY_PROGRESS_POSITION);
+                long duration = bundle.getLong(OpusEvent.EVENT_PLAY_DURATION);
+                if (duration != 0) {
+                    int progress = (int) (100 * position / duration);
+                    mainActivity.updateProgress(progress);
+                }
                 break;
             case OpusEvent.PLAYING_FAILED:
                 Timber.d("PLAYING_FAILED");
