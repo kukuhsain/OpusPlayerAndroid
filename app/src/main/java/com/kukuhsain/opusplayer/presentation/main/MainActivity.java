@@ -103,16 +103,22 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             Toast.makeText(this, "No opus file picked!", Toast.LENGTH_SHORT).show();
             return;
         }
-        ivPlay.setVisibility(View.GONE);
-        ivPause.setVisibility(View.VISIBLE);
         OpusService.play(this, filePath);
     }
 
     @OnClick(R.id.iv_pause)
     public void pauseOpusFile() {
+        OpusService.pause(this);
+    }
+
+    public void showPlayButton() {
         ivPlay.setVisibility(View.VISIBLE);
         ivPause.setVisibility(View.GONE);
-        OpusService.pause(this);
+    }
+
+    public void showPauseButton() {
+        ivPlay.setVisibility(View.GONE);
+        ivPause.setVisibility(View.VISIBLE);
     }
 
     public void updateProgress(int progress) {

@@ -46,12 +46,16 @@ public class OpusServiceReceiver extends BroadcastReceiver {
                 break;
             case OpusEvent.PLAYING_FINISHED:
                 Timber.d("PLAYING_FINISHED");
+                mainActivity.updateProgress(0);
+                mainActivity.showPlayButton();
                 break;
             case OpusEvent.PLAYING_PAUSED:
                 Timber.d("PLAYING_PAUSED");
+                mainActivity.showPlayButton();
                 break;
             case OpusEvent.PLAYING_STARTED:
                 Timber.d("PLAYING_STARTED");
+                mainActivity.showPauseButton();
                 break;
             default:
                 Timber.d("Unavailable feature...");
