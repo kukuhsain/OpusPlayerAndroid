@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kukuhsain.opusplayer.nativelib.HelloJni;
 import com.kukuhsain.opusplayer.receiver.OpusServiceReceiver;
 import com.kukuhsain.opusplayer.R;
 import com.kukuhsain.opusplayer.util.FileUtil;
@@ -23,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
+import timber.log.Timber;
 import top.oply.opuslib.OpusEvent;
 import top.oply.opuslib.OpusService;
 
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        Timber.d("Message from cpp...");
+        Timber.d(HelloJni.helloFromJni());
 
         receiver = new OpusServiceReceiver(this);
         IntentFilter filter = new IntentFilter();
